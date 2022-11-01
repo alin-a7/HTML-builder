@@ -40,9 +40,6 @@ fs.readdir(
   (err, files) => {
     if (err) console.log(err);
     else {
-
-
-
       files.forEach((file) => {
         let filePath = path.join(__dirname, "files", file.name);
         let filePathNew = path.join(__dirname, "files-copy", file.name);
