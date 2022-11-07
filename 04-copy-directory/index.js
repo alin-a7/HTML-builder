@@ -16,7 +16,7 @@ fs.readdir(
     } else {
       filesOld.forEach((fileOld) => {
         fs.unlink(path.join(__dirname, "files-copy", fileOld.name), (err) => {
-          if (err) throw err;
+          if (err) console.log("Данные были перезаписаны");
         });
       });
     }
