@@ -122,17 +122,6 @@ fs.readdir(
         );
 
         fs.readdir(dirPathNew, { withFileTypes: true }, (err, filesOld) => {
-          if (err) console.log(`Папка assets/${dir.name} была скопирована`);
-          else {
-            filesOld.forEach((fileOld) => {
-              fs.unlink(path.join(dirPathNew, fileOld.name), (err) => {
-                if (err) throw err;
-              });
-            });
-          }
-        });
-
-        fs.access(dirPathNew, fs.constants.F_OK, (err) => {
           if (err) {
             fs.mkdir(dirPathNew, (err) => {
               if (err) {
@@ -141,8 +130,26 @@ fs.readdir(
                 );
               }
             });
+          } else {
+            filesOld.forEach((fileOld) => {
+              fs.unlink(path.join(dirPathNew, fileOld.name), (err) => {
+                if (err) throw err;
+              });
+            });
           }
         });
+
+        // fs.access(dirPathNew, fs.constants.F_OK, (err) => {
+        //   if (err) {
+        //     fs.mkdir(dirPathNew, (err) => {
+        //       if (err) {
+        //         console.log(
+        //           `Папка project-dist/assets/${dir.name} уже существует, данные в ней перезаписаны`
+        //         );
+        //       }
+        //     });
+        //   }
+        // });
 
         fs.readdir(dirPath, { withFileTypes: true }, (err, files) => {
           if (err) console.log(err);
@@ -152,7 +159,7 @@ fs.readdir(
               let filePathNew = path.join(dirPathNew, file.name);
 
               fs.copyFile(filePath, filePathNew, (err) => {
-                if (err) throw err;
+                if (err) console.log("Данные были перезаписаны");
               });
             });
           }
@@ -161,4 +168,3 @@ fs.readdir(
     }
   }
 );
-
